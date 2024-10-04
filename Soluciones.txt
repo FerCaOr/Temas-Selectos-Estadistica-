@@ -1,0 +1,32 @@
+Soluciones
+Examen 1er Parcial
+
+Fernando Casarrubias Orihuela
+
+1.- B
+2.- A
+3.- 1NF
+4.- WHERE es para filtrar filas antes de hacer agregaciones y HAVING para filtrar grupos después de hacer las agregaciones.
+5.- C
+
+
+
+1.- 
+SELECT AVG(edad) 
+FROM alumnos 
+WHERE apellido 
+LIKE '%ez';
+
+2.-
+SELECT materia, COUNT(*) as cantidad 
+FROM alumnos 
+WHERE edad > 20 
+GROUP BY materia 
+ORDER BY cantidad DESC;
+
+3.-
+SELECT nombre, calificacion 
+FROM alumnos 
+WHERE materia = 'Matemáticas' 
+ORDER BY calificacion DESC 
+LIMIT 1 OFFSET 1;
