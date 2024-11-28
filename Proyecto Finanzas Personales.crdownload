@@ -1,0 +1,184 @@
+import streamlit as st
+
+
+# Inicializar el estado de la sesión
+if 'mostrar_resultado' not in st.session_state:
+    st.session_state.mostrar_resultado = False
+
+st.title("Cuestionario de Inversiones")
+
+if not st.session_state.mostrar_resultado:
+
+    # Pregunta 1
+    st.header("1. ¿Qué tanto sabes de inversiones?")
+    opcion1 = st.radio("Selecciona una opción:", ["Nada", "Básico", "Intermedio", "Avanzado", "Experto"], index=0)
+    valor1 = {"Nada":1, "Básico":2, "Intermedio":3, "Avanzado":4, "Experto":5}[opcion1]
+
+    # Pregunta 2
+    st.header("2. ¿Qué tan dispuesto estás al riesgo?")
+    opcion2 = st.radio("Selecciona una opción:", ["Poco", "Medio", "Mucho", "Totalmente"], index=0)
+    valor2 = {"Poco":1, "Medio":2, "Mucho":3, "Totalmente":4}[opcion2]
+
+    # Pregunta 3
+    st.header("3. ¿Cuál es tu edad?")
+    opcion3 = st.radio("Selecciona una opción:", ["Menos de 18", "18 - 30", "30 - 60", "60+"], index=0)
+    valor3 = {"Menos de 18":1, "18 - 30":4, "30 - 60":3, "60+":2}[opcion3]
+
+    # Pregunta 4
+    st.header("4. ¿Qué porcentaje de tu patrimonio planeas invertir?")
+    opcion4 = st.radio("Selecciona una opción:", ["0 - 10%", "10 - 40%", "40 - 80%", "80%+"], index=0)
+    valor4 = {"0 - 10%":4, "10 - 40%":3, "40 - 80%":2, "80%+":1}[opcion4]
+
+    if st.button("Enviar"):
+        # Guardar las respuestas en el estado de la sesión
+        st.session_state.valor1 = valor1
+        st.session_state.valor2 = valor2
+        st.session_state.valor3 = valor3
+        st.session_state.valor4 = valor4
+        # Cambiar a la vista de resultado
+        st.session_state.mostrar_resultado = True
+else:
+    # Recuperar los valores del estado de la sesión
+    valor1 = st.session_state.valor1
+    valor2 = st.session_state.valor2
+    valor3 = st.session_state.valor3
+    valor4 = st.session_state.valor4
+
+    # Calcular la puntuación total
+    puntuacion_total = valor1 + valor2 + valor3 + valor4
+
+    # Determinar el resultado basado en la puntuación total
+    if valor3 == 1:
+        resultado = "CETES"
+    elif valor2 == 1:
+        resultado = "CETES"
+    elif puntuacion_total <= 5:
+        resultado = "CETES"
+    elif 6 <= puntuacion_total <= 10:
+        resultado = "SOFIPOS"
+    elif 11 <= puntuacion_total <= 15:
+        resultado = "CROWDFUNDING"
+    else:
+        resultado = "INVERSIONES"
+
+    # Mostrar el resultado
+    if resultado == "CETES":
+
+        st.write("### CETES")
+        st.write("**CETES**: (Certificados de la Tesorería de la Federación) son instrumentos de deuda a corto plazo emitidos por el Gobierno de México. Se venden a descuento y no pagan intereses durante su vida. El rendimiento se obtiene al recibir el valor nominal al vencimiento. Los plazos disponibles son 28, 91, 182 y 364 días.")
+        st.write("**Rendimiento:**")
+        st.write("- CETES a 28 días: 10.65%")
+        st.write("- CETES a 91 días: 10.78%")
+        st.write("- CETES a 182 días: 10.83%")
+        st.write("- CETES a 364 días: 10.75%")
+
+        st.write("### Bonddia")
+        st.write("**Bonddia**: Instrumentos de deuda que permiten a los inversionistas obtener rendimientos diarios. Se emiten en montos nominales de 100 pesos y están diseñados para ofrecer una alternativa de inversión más líquida y accesible.")
+        st.write("**Rendimiento:** aproximadamente del 10.30%.")
+
+        st.write("### Bonos")
+        st.write("**Bonos**: (Bonos de Desarrollo del Gobierno Federal) son títulos de deuda a mediano y largo plazo que pagan intereses fijos cada seis meses. Se emiten en montos nominales de 100 pesos y están disponibles en plazos que van desde 3 hasta 30 años.")
+        st.write("**Rendimiento:**")
+        st.write("- Bono a 3 años: 9.975%")
+        st.write("- Bono a 5 años: 10.040%")
+        st.write("- Bono a 10 años: 10.200%")
+        st.write("- Bono a 15 años: 10.340%")
+        st.write("- Bono a 20 años: 10.495%")
+        st.write("- Bono a 30 años: 10.480%")
+
+    elif resultado == "SOFIPOS":
+        
+        st.write("### SOFIPOS")
+        st.write("Entidades de Microfinanzas que fomentan el Ahorro y Credito, entre sus socios y publico en general.")
+
+        st.write("#### Klar")
+        st.write("Klar ofrece opciones de inversión con rendimientos competitivos. Permite a los usuarios invertir a diferentes plazos, con la opción de retirar el dinero antes de que venza el plazo en su modalidad flexible, aunque con un rendimiento menor. Su enfoque digital les permite ofrecer tasas atractivas.")
+        st.write("**Rendimiento:**")
+        st.write("- A 7 días: 12.5%")
+        st.write("- A 30 días: 15%")
+        st.write("- A 90 días: 16%")
+        st.write("- A 180 días: 16.5%")
+        st.write("- A 365 días: 17%")
+
+        st.write("#### NU")
+        st.write("NU es una SOFIPO digital que se ha enfocado en simplificar la gestión financiera de sus clientes. Ofrece una cuenta de ahorro que permite obtener rendimientos diarios sin comisiones y con alta liquidez. Su modelo de negocio se basa en la reducción de costos operativos al no tener sucursales físicas.")
+        st.write("**Rendimiento:**")
+        st.write("- Ahorro Congelado a 28 días: GAT nominal 15.60%")
+        st.write("- Ahorro Congelado a 7 días: GAT nominal 15.37%")
+
+        st.write("#### Finsus")
+        st.write("Finsus es una SOFIPO digital que ofrece tasas de rendimiento atractivas y accesibles para los ahorradores. Permite a los usuarios invertir desde montos bajos y recibir rendimientos mensuales, además de reinvertir los intereses generados.")
+        st.write("**Rendimiento:** 15.01% anual")
+
+        st.write("#### Libertad")
+        st.write("Libertad es una SOFIPO autorizada que ofrece productos financieros como créditos, tarjetas de débito y ahorros. Se enfoca en brindar servicios a personas que buscan opciones de financiamiento accesibles.")
+        st.write("**Rendimiento:** No Disponible")
+
+        st.write("#### Kubo")
+        st.write("Kubo es una SOFIPO digital que permite a los usuarios invertir y obtener rendimientos a través de su plataforma. Se centra en ofrecer alternativas de financiamiento y ahorro para individuos y pequeñas empresas, promoviendo la inclusión financiera.")
+        st.write("**Rendimiento:** No Disponible")
+
+    elif resultado == "CROWDFUNDING":
+        st.write("### CROWDFUNDING")
+        st.write("Financiacion Colectiva Online que prescinde de los intermediarioas financieros como bancos o cajas de ahorro que son utilizados como impulso economico")
+
+        st.write("#### Fondeadora")
+        st.write("Fondeadora es una plataforma de crowdfunding que permite a los usuarios financiar proyectos creativos, sociales y empresariales. Facilita la conexión entre creadores y patrocinadores, permitiendo a los emprendedores obtener financiamiento a través de donaciones o inversiones.")
+        st.write("**Rendimiento:** Puede variar según el proyecto, ya que se basa en contribuciones individuales y no ofrece un rendimiento fijo.")
+
+        st.write("#### Yotepresto")
+        st.write("Yotepresto es una plataforma de préstamos entre personas (P2P) que conecta a prestatarios con inversionistas. Los usuarios pueden solicitar préstamos personales y los inversionistas pueden financiar estos préstamos a cambio de un interés.")
+        st.write("**Rendimiento:** Entre el 9% y el 20% anual, dependiendo del riesgo del préstamo y el perfil del prestatario.")
+
+        st.write("#### 100Ladrillos")
+        st.write("100Ladrillos es una plataforma de crowdfunding enfocada en el sector inmobiliario. Permite a los inversionistas participar en proyectos de desarrollo inmobiliario con montos accesibles, diversificando así su portafolio de inversiones.")
+        st.write("**Rendimiento:** Suelen ser del 10% al 15% anual, dependiendo del proyecto específico en el que se invierta.")
+
+        st.write("#### Fundar")
+        st.write("Fundar es una plataforma de crowdfunding que se centra en financiar proyectos sociales y comunitarios. Permite a los emprendedores presentar sus iniciativas y recibir apoyo financiero a través de donaciones.")
+        st.write("**Rendimiento:** No ofrece rendimientos monetarios directos, ya que se basa principalmente en donaciones.")
+
+        st.write("#### Doopla")
+        st.write("Doopla es una plataforma de financiamiento colectivo (crowdfunding) que conecta a solicitantes de crédito con inversionistas dispuestos a prestar. Recientemente ha implementado inteligencia artificial para optimizar sus procesos y mejorar la experiencia del usuario.")
+        st.write("**Rendimiento:** Rendimiento promedio anual de 19.9%, superior al 17.9% para aquellos que no utilizan la herramienta automatizada.")
+
+        st.write("#### Briq")
+        st.write("Briq es una plataforma de crowdfunding inmobiliario que permite a los usuarios invertir en proyectos de construcción y desarrollo. Ofrece una forma accesible para que los inversionistas participen en el sector inmobiliario sin necesidad de grandes capitales.")
+        st.write("**Rendimiento:** 10% al 12% anual, dependiendo del proyecto específico.")
+
+        st.write("#### M2crowd")
+        st.write("M2crowd es otra plataforma de crowdfunding enfocada en el sector inmobiliario, que permite a los usuarios invertir en desarrollos residenciales y comerciales. Se centra en democratizar la inversión inmobiliaria al permitir montos bajos de entrada.")
+        st.write("**Rendimiento:** Entre el 10% y el 15% anual, dependiendo del proyecto elegido.")
+
+    else:
+        st.write("### INVERSIONES")
+        st.write("Colocacion de ahorro o dinero extra en un activo o proyecto con la esperanza de ontener ganancias en unn futuro.")
+
+        st.write("#### Casa de Bolsa")
+        st.write("Las casas de bolsa son intermediarios financieros que facilitan la compra y venta de valores en los mercados financieros. Ofrecen servicios como asesoría en inversiones, análisis de valores y gestión de portafolios. En México, están reguladas por la Comisión Nacional Bancaria y de Valores (CNBV).")
+        st.write("**Rendimiento:** Históricamente, el mercado de valores mexicano ha ofrecido rendimientos anuales promedio del 8% al 12%, aunque esto puede fluctuar considerablemente.")
+
+        st.write("#### Forex")
+        st.write("Forex (mercado de divisas) es el mercado global para el intercambio de monedas. Es uno de los mercados más grandes y líquidos del mundo, donde los traders compran y venden pares de divisas con el objetivo de obtener ganancias a partir de las fluctuaciones en los tipos de cambio.")
+        st.write("**Rendimiento:** Los rendimientos en Forex pueden ser muy variables. Un trader puede ganar entre 10% y 200% mensual, dependiendo de su estrategia, capital inicial y apalancamiento utilizado.")
+
+        st.write("#### Criptomonedas")
+        st.write("Las criptomonedas son activos digitales que utilizan tecnología blockchain para asegurar transacciones. Su popularidad ha crecido significativamente, con Bitcoin como la más conocida. Se consideran una inversión alternativa debido a su alta volatilidad.")
+        st.write("**Rendimiento:** Pueden ser extremadamente altos; algunos inversores han reportado ganancias del 400% o más en períodos cortos.")
+
+        st.write("#### Capital Privado")
+        st.write("El capital privado implica invertir en empresas no cotizadas en bolsa. Los fondos de capital privado buscan adquirir participaciones en empresas con potencial de crecimiento para luego venderlas a un precio mayor.")
+        st.write("**Rendimiento:** Los rendimientos esperados suelen estar entre el 11% y el 20% anual, dependiendo del éxito del fondo y las empresas en las que invierte.")
+
+        st.write("#### Fondos Mutuos")
+        st.write("Los fondos mutuos son vehículos de inversión que agrupan dinero de múltiples inversores para comprar una variedad de activos, como acciones, bonos o bienes raíces. Son gestionados por profesionales que buscan maximizar los rendimientos.")
+        st.write("**Rendimiento:** Varían según el tipo de fondo; los fondos de renta variable pueden ofrecer entre 8% y 15%, mientras que los fondos conservadores tienden a generar rendimientos menores, alrededor del 4% al 6% anual.")
+
+
+    # Botón para reiniciar el cuestionario
+    if st.button("Volver al cuestionario"):
+        # Reiniciar el estado de la sesión
+        st.session_state.mostrar_resultado = False
+
+#Fernando Casarrubias
+#Eduardo Cendón
